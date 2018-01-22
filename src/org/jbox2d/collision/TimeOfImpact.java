@@ -244,7 +244,7 @@ public class TimeOfImpact {
 
           float s = fcn.evaluate(indexes[0], indexes[1], t);
 
-          if (MathUtils.abs(s - target) < tolerance) {
+            if (Math.abs(s - target) < tolerance) {
             // t2 holds a tentative value for t1
             t2 = t;
             break;
@@ -355,8 +355,8 @@ class SeparationFunction {
        * m_proxyB.GetVertex(cache.indexB[0]); Vec2 pointA = Mul(transformA, localPointA); Vec2
        * pointB = Mul(transformB, localPointB); m_axis = pointB - pointA; m_axis.Normalize();
        */
-      localPointA.set(m_proxyA.getVertex(cache.indexA[0]));
-      localPointB.set(m_proxyB.getVertex(cache.indexB[0]));
+      localPointA.set(m_proxyA.vertex(cache.indexA[0]));
+      localPointB.set(m_proxyB.vertex(cache.indexB[0]));
       Transform.mulToOutUnsafe(xfa, localPointA, pointA);
       Transform.mulToOutUnsafe(xfb, localPointB, pointB);
       m_axis.set(pointB).subLocal(pointA);
@@ -366,8 +366,8 @@ class SeparationFunction {
       // Two points on B and one on A.
       m_type = Type.FACE_B;
 
-      localPointB1.set(m_proxyB.getVertex(cache.indexB[0]));
-      localPointB2.set(m_proxyB.getVertex(cache.indexB[1]));
+      localPointB1.set(m_proxyB.vertex(cache.indexB[0]));
+      localPointB2.set(m_proxyB.vertex(cache.indexB[1]));
 
       temp.set(localPointB2).subLocal(localPointB1);
       Vec2.crossToOutUnsafe(temp, 1f, m_axis);
@@ -378,7 +378,7 @@ class SeparationFunction {
       m_localPoint.set(localPointB1).addLocal(localPointB2).mulLocal(.5f);
       Transform.mulToOutUnsafe(xfb, m_localPoint, pointB);
 
-      localPointA.set(proxyA.getVertex(cache.indexA[0]));
+      localPointA.set(proxyA.vertex(cache.indexA[0]));
       Transform.mulToOutUnsafe(xfa, localPointA, pointA);
 
       temp.set(pointA).subLocal(pointB);
@@ -392,8 +392,8 @@ class SeparationFunction {
       // Two points on A and one or two points on B.
       m_type = Type.FACE_A;
 
-      localPointA1.set(m_proxyA.getVertex(cache.indexA[0]));
-      localPointA2.set(m_proxyA.getVertex(cache.indexA[1]));
+      localPointA1.set(m_proxyA.vertex(cache.indexA[0]));
+      localPointA2.set(m_proxyA.vertex(cache.indexA[1]));
 
       temp.set(localPointA2).subLocal(localPointA1);
       Vec2.crossToOutUnsafe(temp, 1.0f, m_axis);
@@ -404,7 +404,7 @@ class SeparationFunction {
       m_localPoint.set(localPointA1).addLocal(localPointA2).mulLocal(.5f);
       Transform.mulToOutUnsafe(xfa, m_localPoint, pointA);
 
-      localPointB.set(m_proxyB.getVertex(cache.indexB[0]));
+      localPointB.set(m_proxyB.vertex(cache.indexB[0]));
       Transform.mulToOutUnsafe(xfb, localPointB, pointB);
 
       temp.set(pointB).subLocal(pointA);
@@ -435,8 +435,8 @@ class SeparationFunction {
         indexes[0] = m_proxyA.getSupport(axisA);
         indexes[1] = m_proxyB.getSupport(axisB);
 
-        localPointA.set(m_proxyA.getVertex(indexes[0]));
-        localPointB.set(m_proxyB.getVertex(indexes[1]));
+        localPointA.set(m_proxyA.vertex(indexes[0]));
+        localPointB.set(m_proxyB.vertex(indexes[1]));
 
         Transform.mulToOutUnsafe(xfa, localPointA, pointA);
         Transform.mulToOutUnsafe(xfb, localPointB, pointB);
@@ -454,7 +454,7 @@ class SeparationFunction {
         indexes[0] = -1;
         indexes[1] = m_proxyB.getSupport(axisB);
 
-        localPointB.set(m_proxyB.getVertex(indexes[1]));
+        localPointB.set(m_proxyB.vertex(indexes[1]));
         Transform.mulToOutUnsafe(xfb, localPointB, pointB);
 
         float separation = Vec2.dot(pointB.subLocal(pointA), normal);
@@ -470,7 +470,7 @@ class SeparationFunction {
         indexes[1] = -1;
         indexes[0] = m_proxyA.getSupport(axisA);
 
-        localPointA.set(m_proxyA.getVertex(indexes[0]));
+        localPointA.set(m_proxyA.vertex(indexes[0]));
         Transform.mulToOutUnsafe(xfa, localPointA, pointA);
 
         float separation = Vec2.dot(pointA.subLocal(pointB), normal);
@@ -494,8 +494,8 @@ class SeparationFunction {
         Rot.mulTransUnsafe(xfb.q, m_axis.negateLocal(), axisB);
         m_axis.negateLocal();
 
-        localPointA.set(m_proxyA.getVertex(indexA));
-        localPointB.set(m_proxyB.getVertex(indexB));
+        localPointA.set(m_proxyA.vertex(indexA));
+        localPointB.set(m_proxyB.vertex(indexB));
 
         Transform.mulToOutUnsafe(xfa, localPointA, pointA);
         Transform.mulToOutUnsafe(xfb, localPointB, pointB);
@@ -510,7 +510,7 @@ class SeparationFunction {
         Rot.mulTransUnsafe(xfb.q, normal.negateLocal(), axisB);
         normal.negateLocal();
 
-        localPointB.set(m_proxyB.getVertex(indexB));
+        localPointB.set(m_proxyB.vertex(indexB));
         Transform.mulToOutUnsafe(xfb, localPointB, pointB);
         float separation = Vec2.dot(pointB.subLocal(pointA), normal);
         return separation;
@@ -522,7 +522,7 @@ class SeparationFunction {
         Rot.mulTransUnsafe(xfa.q, normal.negateLocal(), axisA);
         normal.negateLocal();
 
-        localPointA.set(m_proxyA.getVertex(indexA));
+        localPointA.set(m_proxyA.vertex(indexA));
         Transform.mulToOutUnsafe(xfa, localPointA, pointA);
 
         float separation = Vec2.dot(pointA.subLocal(pointB), normal);

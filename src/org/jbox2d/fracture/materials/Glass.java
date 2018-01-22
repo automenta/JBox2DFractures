@@ -17,12 +17,12 @@ public class Glass extends Material {
     /**
      * Pocet prvkov kruznice.
      */
-    public int levels = 4;
+    public final int levels = 4;
     
     /**
      * Pocet prvkov v jednej kruznici.
      */
-    public int count = 30;
+    public final int count = 30;
     
     /**
      * Konstruktor inicializujuci sklo.

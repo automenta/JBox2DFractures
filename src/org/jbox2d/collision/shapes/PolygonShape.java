@@ -26,7 +26,6 @@ package org.jbox2d.collision.shapes;
 import org.jbox2d.collision.AABB;
 import org.jbox2d.collision.RayCastInput;
 import org.jbox2d.collision.RayCastOutput;
-import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Rot;
 import org.jbox2d.common.Settings;
 import org.jbox2d.common.Transform;
@@ -67,7 +66,7 @@ public class PolygonShape extends Shape {
   private final Vec2 pool2 = new Vec2();
   private final Vec2 pool3 = new Vec2();
   private final Vec2 pool4 = new Vec2();
-  private Transform poolt1 = new Transform();
+  private final Transform poolt1 = new Transform();
 
   public PolygonShape() {
     super(ShapeType.POLYGON);
@@ -184,13 +183,16 @@ public class PolygonShape extends Shape {
     computeCentroidToOut(m_vertices, m_count, m_centroid);
   }
 
+  public static PolygonShape box(final float hx, final float hy) {
+    return new PolygonShape().setAsBox(hx, hy);
+  }
+
   /**
    * Build vertices to represent an axis-aligned box.
-   * 
-   * @param hx the half-width.
+   *  @param hx the half-width.
    * @param hy the half-height.
    */
-  public final void setAsBox(final float hx, final float hy) {
+  public final org.jbox2d.collision.shapes.PolygonShape setAsBox(final float hx, final float hy) {
     m_count = 4;
     m_vertices[0].set(-hx, -hy);
     m_vertices[1].set(hx, -hy);
@@ -201,6 +203,7 @@ public class PolygonShape extends Shape {
     m_normals[2].set(0.0f, 1.0f);
     m_normals[3].set(-1.0f, 0.0f);
     m_centroid.setZero();
+    return this;
   }
 
   /**
@@ -364,7 +367,7 @@ public class PolygonShape extends Shape {
           minDistance2 = distance2;
         }
       }
-      distance = MathUtils.sqrt(minDistance2);
+      distance = (float) Math.sqrt(minDistance2);
       normalOut.x = xfqc * minDistanceX - xfqs * minDistanceY;
       normalOut.y = xfqs * minDistanceX + xfqc * minDistanceY;
       normalOut.normalize();

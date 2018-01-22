@@ -67,16 +67,16 @@ public class ParticleSystem {
   int m_count;
   int m_internalAllocatedCapacity;
   int m_maxCount;
-  ParticleBufferInt m_flagsBuffer;
-  ParticleBuffer<Vec2> m_positionBuffer;
-  ParticleBuffer<Vec2> m_velocityBuffer;
+  final ParticleBufferInt m_flagsBuffer;
+  final ParticleBuffer<Vec2> m_positionBuffer;
+  final ParticleBuffer<Vec2> m_velocityBuffer;
   float[] m_accumulationBuffer; // temporary values
   Vec2[] m_accumulation2Buffer; // temporary vector values
   float[] m_depthBuffer; // distance from the surface
 
-  public ParticleBuffer<ParticleColor> m_colorBuffer;
+  public final ParticleBuffer<ParticleColor> m_colorBuffer;
   ParticleGroup[] m_groupBuffer;
-  ParticleBuffer<Object> m_userDataBuffer;
+  final ParticleBuffer<Object> m_userDataBuffer;
 
   int m_proxyCount;
   int m_proxyCapacity;
@@ -101,18 +101,18 @@ public class ParticleSystem {
   int m_groupCount;
   ParticleGroup m_groupList;
 
-  float m_pressureStrength;
+  final float m_pressureStrength;
   float m_dampingStrength;
-  float m_elasticStrength;
-  float m_springStrength;
-  float m_viscousStrength;
-  float m_surfaceTensionStrengthA;
-  float m_surfaceTensionStrengthB;
-  float m_powderStrength;
-  float m_ejectionStrength;
-  float m_colorMixingStrength;
+  final float m_elasticStrength;
+  final float m_springStrength;
+  final float m_viscousStrength;
+  final float m_surfaceTensionStrengthA;
+  final float m_surfaceTensionStrengthB;
+  final float m_powderStrength;
+  final float m_ejectionStrength;
+  final float m_colorMixingStrength;
 
-  World m_world;
+  final World m_world;
 
   public ParticleSystem(World world) {
     m_world = world;
@@ -159,10 +159,10 @@ public class ParticleSystem {
     m_colorMixingStrength = 0.5f;
 
     m_flagsBuffer = new ParticleBufferInt();
-    m_positionBuffer = new ParticleBuffer<Vec2>(Vec2.class);
-    m_velocityBuffer = new ParticleBuffer<Vec2>(Vec2.class);
-    m_colorBuffer = new ParticleBuffer<ParticleColor>(ParticleColor.class);
-    m_userDataBuffer = new ParticleBuffer<Object>(Object.class);
+    m_positionBuffer = new ParticleBuffer<>(Vec2.class);
+    m_velocityBuffer = new ParticleBuffer<>(Vec2.class);
+    m_colorBuffer = new ParticleBuffer<>(ParticleColor.class);
+    m_userDataBuffer = new ParticleBuffer<>(Object.class);
   }
   
 //  public void assertNotSamePosition() {
@@ -270,7 +270,7 @@ public class ParticleSystem {
   private final Vec2 tempVec = new Vec2();
   private final Transform tempTransform = new Transform();
   private final Transform tempTransform2 = new Transform();
-  private CreateParticleGroupCallback createParticleGroupCallback =
+  private final CreateParticleGroupCallback createParticleGroupCallback =
       new CreateParticleGroupCallback();
   private final ParticleDef tempParticleDef = new ParticleDef();
 
@@ -564,7 +564,7 @@ public class ParticleSystem {
                 newCapacity);
         m_contactCapacity = newCapacity;
       }
-      float invD = d2 != 0 ? MathUtils.sqrt(1 / d2) : Float.MAX_VALUE;
+      float invD = d2 != 0 ? (float) Math.sqrt(1 / d2) : Float.MAX_VALUE;
       ParticleContact contact = m_contactBuffer[m_contactCount];
       contact.indexA = a;
       contact.indexB = b;
@@ -651,7 +651,7 @@ public class ParticleSystem {
     m_world.queryAABB(ubccallback, aabb);
   }
 
-  private SolveCollisionCallback sccallback = new SolveCollisionCallback();
+  private final SolveCollisionCallback sccallback = new SolveCollisionCallback();
 
   public void solveCollision(TimeStep step) {
     final AABB aabb = temp;
@@ -710,7 +710,7 @@ public class ParticleSystem {
       v.y += gravityy;
       float v2 = v.x * v.x + v.y * v.y;
       if (v2 > criticalVelocytySquared) {
-        float a = v2 == 0 ? Float.MAX_VALUE : MathUtils.sqrt(criticalVelocytySquared / v2);
+        float a = v2 == 0 ? Float.MAX_VALUE : (float) Math.sqrt(criticalVelocytySquared / v2);
         v.x *= a;
         v.y *= a;
       }
@@ -945,7 +945,7 @@ public class ParticleSystem {
         float rs = Vec2.cross(oa, pa) + Vec2.cross(ob, pb) + Vec2.cross(oc, pc);
         float rc = Vec2.dot(oa, pa) + Vec2.dot(ob, pb) + Vec2.dot(oc, pc);
         float r2 = rs * rs + rc * rc;
-        float invR = r2 == 0 ? Float.MAX_VALUE : MathUtils.sqrt(1f / r2);
+        float invR = r2 == 0 ? Float.MAX_VALUE : (float) Math.sqrt(1f / r2);
         rs *= invR;
         rc *= invR;
         final float strength = elasticStrength * triad.strength;
@@ -980,7 +980,7 @@ public class ParticleSystem {
         final float dx = pb.x - pa.x;
         final float dy = pb.y - pa.y;
         float r0 = pair.distance;
-        float r1 = MathUtils.sqrt(dx * dx + dy * dy);
+        float r1 = (float) Math.sqrt(dx * dx + dy * dy);
         if (r1 == 0) r1 = Float.MAX_VALUE;
         float strength = springStrength * pair.strength;
         final float fx = strength * (r0 - r1) / r1 * dx;
@@ -1553,7 +1553,7 @@ public class ParticleSystem {
     m_maxCount = count;
   }
 
-  void setParticleBuffer(ParticleBufferInt buffer, int[] newData, int newCapacity) {
+  static void setParticleBuffer(ParticleBufferInt buffer, int[] newData, int newCapacity) {
     assert ((newData != null && newCapacity != 0) || (newData == null && newCapacity == 0));
     if (buffer.userSuppliedCapacity != 0) {
       // m_world.m_blockAllocator.Free(buffer.data, sizeof(T) * m_internalAllocatedCapacity);
@@ -1562,7 +1562,7 @@ public class ParticleSystem {
     buffer.userSuppliedCapacity = newCapacity;
   }
 
-  <T> void setParticleBuffer(ParticleBuffer<T> buffer, T[] newData, int newCapacity) {
+  static <T> void setParticleBuffer(ParticleBuffer<T> buffer, T[] newData, int newCapacity) {
     assert ((newData != null && newCapacity != 0) || (newData == null && newCapacity == 0));
     if (buffer.userSuppliedCapacity != 0) {
       // m_world.m_blockAllocator.Free(buffer.data, sizeof(T) * m_internalAllocatedCapacity);
@@ -1703,7 +1703,7 @@ public class ParticleSystem {
       float p2 = px * px + py * py;
       float determinant = pv * pv - v2 * (p2 - m_squaredDiameter);
       if (determinant >= 0) {
-        float sqrtDeterminant = MathUtils.sqrt(determinant);
+        float sqrtDeterminant = (float) Math.sqrt(determinant);
         // find a solution between 0 and fraction
         float t = (-pv - sqrtDeterminant) / v2;
         if (t > fraction) {
@@ -1812,6 +1812,11 @@ public class ParticleSystem {
     }
 
     @Override
+    public int hashCode() {
+      throw new UnsupportedOperationException("TODO");
+    }
+
+    @Override
     public boolean equals(Object obj) {
       if (this == obj) return true;
       if (obj == null) return false;
@@ -1874,8 +1879,8 @@ public class ParticleSystem {
             system.m_flagsBuffer.data[a] | system.m_flagsBuffer.data[b]
                 | system.m_flagsBuffer.data[c];
         triad.strength = def.strength;
-        final float midPointx = (float) 1 / 3 * (pa.x + pb.x + pc.x);
-        final float midPointy = (float) 1 / 3 * (pa.y + pb.y + pc.y);
+        final float midPointx =  1f / 3f * (pa.x + pb.x + pc.x);
+        final float midPointy =  1f / 3f * (pa.y + pb.y + pc.y);
         triad.pa.x = pa.x - midPointx;
         triad.pa.y = pa.y - midPointy;
         triad.pb.x = pb.x - midPointx;

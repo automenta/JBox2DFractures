@@ -214,8 +214,8 @@ public class DynamicTree implements BroadPhaseStrategy {
     // v is perpendicular to the segment.
     vx = -1f * ry;
     vy = 1f * rx;
-    absVx = MathUtils.abs(vx);
-    absVy = MathUtils.abs(vy);
+      absVx = Math.abs(vx);
+      absVy = Math.abs(vy);
 
     // Separating axis for segment (Gino, p80).
     // |dot(v, p1 - c)| > dot(|v|, h)
@@ -260,7 +260,7 @@ public class DynamicTree implements BroadPhaseStrategy {
       hy = (nodeAABB.upperBound.y - nodeAABB.lowerBound.y) * .5f;
       tempx = p1x - cx;
       tempy = p1y - cy;
-      float separation = MathUtils.abs(vx * tempx + vy * tempy) - (absVx * hx + absVy * hy);
+        float separation = Math.abs(vx * tempx + vy * tempy) - (absVx * hx + absVy * hy);
       if (separation > 0.0f) {
         continue;
       }

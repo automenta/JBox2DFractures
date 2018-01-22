@@ -99,7 +99,7 @@ public class World {
 
   protected int m_flags;
 
-  protected ContactManager m_contactManager;
+  protected final ContactManager m_contactManager;
 
   private Body m_bodyList;
   private Joint m_jointList;
@@ -130,13 +130,13 @@ public class World {
 
   private boolean m_stepComplete;
 
-  private Profile m_profile;
+  private final Profile m_profile;
 
-  private ParticleSystem m_particleSystem;
+  private final ParticleSystem m_particleSystem;
   
   private final HashTable<Fracture> fractures = new HashTable<>();
   
-  private ContactRegister[][] contactStacks =
+  private final ContactRegister[][] contactStacks =
       new ContactRegister[ShapeType.values().length][ShapeType.values().length];
 
   /**
@@ -1592,8 +1592,8 @@ public class World {
 
   // NOTE this corresponds to the liquid test, so the debugdraw can draw
   // the liquid particles correctly. They should be the same.
-  private static Integer LIQUID_INT = new Integer(1234598372);
-  private float liquidLength = .12f;
+  private static final Integer LIQUID_INT = 1234598372;
+  private final float liquidLength = .12f;
   private float averageLinearVel = -1;
   private final Vec2 liquidOffset = new Vec2();
   private final Vec2 circCenterMoved = new Vec2();

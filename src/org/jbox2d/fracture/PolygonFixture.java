@@ -42,5 +42,5 @@ public class PolygonFixture extends Polygon {
      * Mnozina fixture, z ktorych dany polygon pozostava (reprezentuju konvexnu
      * dekompoziciu).
      */
-    public MyList<Fixture> fixtureList = new MyList<>();
+    public final MyList<Fixture> fixtureList = new MyList<>();
 }

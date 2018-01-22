@@ -26,7 +26,6 @@
  */
 package org.jbox2d.dynamics.joints;
 
-import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Rot;
 import org.jbox2d.common.Settings;
 import org.jbox2d.common.Vec2;
@@ -366,7 +365,7 @@ public class PulleyJoint extends Joint {
     }
 
     float C = m_constant - lengthA - m_ratio * lengthB;
-    float linearError = MathUtils.abs(C);
+      float linearError = Math.abs(C);
 
     float impulse = -mass * C;
 

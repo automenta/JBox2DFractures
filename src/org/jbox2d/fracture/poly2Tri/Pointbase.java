@@ -1,9 +1,5 @@
 package org.jbox2d.fracture.poly2Tri;
 
-import org.jbox2d.fracture.poly2Tri.splayTree.BTreeNode;
-import org.jbox2d.fracture.poly2Tri.splayTree.SplayTreeAction;
-import org.jbox2d.fracture.poly2Tri.splayTree.SplayTreeItem;
-
 public class Pointbase implements Comparable {
 
 	/**
@@ -72,7 +68,12 @@ public class Pointbase implements Comparable {
     	if (!(o instanceof Pointbase)) return false;
     	return equals((Pointbase)o);
     }
-    
+
+    @Override
+    public int hashCode() {
+        throw new UnsupportedOperationException("TODO");
+    }
+
     public boolean equals(Pointbase pb){
     	return (this.x == pb.x) && (this.y == pb.y);
     }

@@ -26,7 +26,6 @@ package org.jbox2d.collision.shapes;
 import org.jbox2d.collision.AABB;
 import org.jbox2d.collision.RayCastInput;
 import org.jbox2d.collision.RayCastOutput;
-import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Rot;
 import org.jbox2d.common.Settings;
 import org.jbox2d.common.Transform;
@@ -111,7 +110,7 @@ public class EdgeShape extends Shape {
       }
     }
 
-    float d1 = MathUtils.sqrt(dx * dx + dy * dy);
+      float d1 = (float) Math.sqrt(dx * dx + dy * dy);
     if (d1 > 0) {
       normalOut.x = 1 / d1 * dx;
       normalOut.y = 1 / d1 * dy;

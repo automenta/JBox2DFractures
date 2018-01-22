@@ -38,7 +38,7 @@ import org.jbox2d.fracture.FractureListener;
  */
 public class ContactManager implements PairCallback {
 
-  public BroadPhase m_broadPhase;
+  public final BroadPhase m_broadPhase;
   public Contact m_contactList;
   public int m_contactCount;
   public ContactFilter m_contactFilter;
@@ -111,7 +111,7 @@ public class ContactManager implements PairCallback {
     }
 
     // Check user filtering.
-    if (m_contactFilter != null && m_contactFilter.shouldCollide(fixtureA, fixtureB) == false) {
+    if (m_contactFilter != null && ContactFilter.shouldCollide(fixtureA, fixtureB) == false) {
       return;
     }
 
@@ -254,7 +254,7 @@ public class ContactManager implements PairCallback {
         }
 
         // Check user filtering.
-        if (m_contactFilter != null && m_contactFilter.shouldCollide(fixtureA, fixtureB) == false) {
+        if (m_contactFilter != null && ContactFilter.shouldCollide(fixtureA, fixtureB) == false) {
           Contact cNuke = c;
           c = cNuke.getNext();
           destroy(cNuke);

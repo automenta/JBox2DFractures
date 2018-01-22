@@ -64,7 +64,7 @@ public class WeldJoint extends Joint {
   // Solver shared
   private final Vec2 m_localAnchorA;
   private final Vec2 m_localAnchorB;
-  private float m_referenceAngle;
+  private final float m_referenceAngle;
   private float m_gamma;
   private final Vec3 m_impulse;
 
@@ -390,7 +390,7 @@ public class WeldJoint extends Joint {
       float C2 = aB - aA - m_referenceAngle;
 
       positionError = C1.length();
-      angularError = MathUtils.abs(C2);
+        angularError = Math.abs(C2);
 
       final Vec3 C = pool.popVec3();
       final Vec3 impulse = pool.popVec3();

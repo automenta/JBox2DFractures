@@ -23,7 +23,6 @@
  ******************************************************************************/
 package org.jbox2d.dynamics;
 
-import java.util.List;
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.common.MathUtils;
@@ -345,14 +344,14 @@ public class Island {
 
       if (translationx * translationx + translationy * translationy > Settings.maxTranslationSquared) {
         float ratio = Settings.maxTranslation
-            / MathUtils.sqrt(translationx * translationx + translationy * translationy);
+            / (float) Math.sqrt(translationx * translationx + translationy * translationy);
         v.x *= ratio;
         v.y *= ratio;
       }
 
       float rotation = h * w;
       if (rotation * rotation > Settings.maxRotationSquared) {
-        float ratio = Settings.maxRotation / MathUtils.abs(rotation);
+        float ratio = Settings.maxRotation / Math.abs(rotation);
         w *= ratio;
       }
 
@@ -530,13 +529,13 @@ public class Island {
       if (translationx * translationx + translationy * translationy > Settings.maxTranslationSquared) {
         float ratio =
             Settings.maxTranslation
-                / MathUtils.sqrt(translationx * translationx + translationy * translationy);
+                / (float) Math.sqrt(translationx * translationx + translationy * translationy);
         v.mulLocal(ratio);
       }
 
       float rotation = h * w;
       if (rotation * rotation > Settings.maxRotationSquared) {
-        float ratio = Settings.maxRotation / MathUtils.abs(rotation);
+        float ratio = Settings.maxRotation / Math.abs(rotation);
         w *= ratio;
       }
 

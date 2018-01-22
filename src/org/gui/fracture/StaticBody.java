@@ -1,4 +1,4 @@
-package org.gui.testbed;
+package org.gui.fracture;
 
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;

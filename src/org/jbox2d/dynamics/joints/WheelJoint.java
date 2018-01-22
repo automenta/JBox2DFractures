@@ -493,6 +493,6 @@ public class WheelJoint extends Joint {
     // data.positions[m_indexB].c = cB;
     data.positions[m_indexB].a = aB;
 
-    return MathUtils.abs(C) <= Settings.linearSlop;
+      return Math.abs(C) <= Settings.linearSlop;
   }
 }

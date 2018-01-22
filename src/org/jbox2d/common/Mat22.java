@@ -110,7 +110,8 @@ public class Mat22 implements Serializable {
    * @param angle Rotation (in radians) that matrix represents.
    */
   public final void set(final float angle) {
-    final float c = MathUtils.cos(angle), s = MathUtils.sin(angle);
+
+    final float c = (float) Math.cos(angle), s = (float) Math.sin(angle);
     ex.x = c;
     ey.x = -s;
     ex.y = s;
@@ -143,7 +144,7 @@ public class Mat22 implements Serializable {
    * @return
    */
   public final float getAngle() {
-    return MathUtils.atan2(ex.y, ex.x);
+    return (float) Math.atan2(ex.y, ex.x);
   }
 
   /**
@@ -206,8 +207,8 @@ public class Mat22 implements Serializable {
    * @return Absolute value matrix
    */
   public final Mat22 abs() {
-    return new Mat22(MathUtils.abs(ex.x), MathUtils.abs(ey.x), MathUtils.abs(ex.y),
-        MathUtils.abs(ey.y));
+      return new Mat22(Math.abs(ex.x), Math.abs(ey.x), Math.abs(ex.y),
+              Math.abs(ey.y));
   }
 
   /* djm: added */
@@ -227,10 +228,10 @@ public class Mat22 implements Serializable {
 
   /* djm created */
   public static void absToOut(final Mat22 R, final Mat22 out) {
-    out.ex.x = MathUtils.abs(R.ex.x);
-    out.ex.y = MathUtils.abs(R.ex.y);
-    out.ey.x = MathUtils.abs(R.ey.x);
-    out.ey.y = MathUtils.abs(R.ey.y);
+      out.ex.x = Math.abs(R.ex.x);
+      out.ex.y = Math.abs(R.ex.y);
+      out.ey.x = Math.abs(R.ey.x);
+      out.ey.y = Math.abs(R.ey.y);
   }
 
   /**
@@ -526,8 +527,9 @@ public class Mat22 implements Serializable {
 
   public final static Mat22 createRotationalTransform(float angle) {
     Mat22 mat = new Mat22();
-    final float c = MathUtils.cos(angle);
-    final float s = MathUtils.sin(angle);
+
+    final float c = (float) Math.cos(angle);
+    final float s = (float) Math.sin(angle);
     mat.ex.x = c;
     mat.ey.x = -s;
     mat.ex.y = s;
@@ -536,8 +538,9 @@ public class Mat22 implements Serializable {
   }
 
   public final static void createRotationalTransform(float angle, Mat22 out) {
-    final float c = MathUtils.cos(angle);
-    final float s = MathUtils.sin(angle);
+
+    final float c = (float) Math.cos(angle);
+    final float s = (float) Math.sin(angle);
     out.ex.x = c;
     out.ey.x = -s;
     out.ex.y = s;

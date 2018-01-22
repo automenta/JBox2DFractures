@@ -94,8 +94,9 @@ public class Transform implements Serializable {
 
   public final static void mulToOutUnsafe(final Transform T, final Vec2 v, final Vec2 out) {
     assert (v != out);
-    out.x = (T.q.c * v.x - T.q.s * v.y) + T.p.x;
-    out.y = (T.q.s * v.x + T.q.c * v.y) + T.p.y;
+    Rot tq = T.q;
+    out.x = (tq.c * v.x - tq.s * v.y) + T.p.x;
+    out.y = (tq.s * v.x + tq.c * v.y) + T.p.y;
   }
 
   public final static Vec2 mulTrans(final Transform T, final Vec2 v) {
@@ -143,7 +144,7 @@ public class Transform implements Serializable {
     out.p.addLocal(A.p);
   }
 
-  private static Vec2 pool = new Vec2();
+  private static final Vec2 pool = new Vec2();
 
   public final static Transform mulTrans(final Transform A, final Transform B) {
     Transform C = new Transform();

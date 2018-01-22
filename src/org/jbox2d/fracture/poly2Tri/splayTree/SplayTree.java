@@ -127,7 +127,7 @@ public class SplayTree {
 	//const SplayTree & operator=( const SplayTree & rhs );
 	public static SplayTree clone(SplayTree rhs){
 		SplayTree st = new SplayTree();
-		st.root = rhs.clone(rhs.root);
+		st.root = SplayTree.clone(rhs.root);
 		st.size = rhs.size;
 		return st;
 	}
@@ -177,7 +177,7 @@ public class SplayTree {
 	}  
 	  
 //	Height of subtree t;
-	public int height(BTreeNode t){
+	public static int height(BTreeNode t){
 		if (t == null) return 0;
 		int lh = height(t._left);
 		int rh = height(t._right);
@@ -186,15 +186,15 @@ public class SplayTree {
 	}
 	
 	
-	public BTreeNode left(BTreeNode node){
+	public static BTreeNode left(BTreeNode node){
 		return node.left(); 
 	}
 	
-	public BTreeNode right(BTreeNode node){
+	public static BTreeNode right(BTreeNode node){
 		return node.right(); 
 	}     
 
-	private BTreeNode clone( BTreeNode t ){
+	private static BTreeNode clone(BTreeNode t){
 		if (t == null)
 				return null;
 		// TODO ... find out what that means
@@ -204,7 +204,7 @@ public class SplayTree {
 	    return new BTreeNode( t._data, clone( t._left ), clone( t._right ) ); 
 	}
 
-	private void inOrder(SplayTreeAction action, BTreeNode t, double y){
+	private static void inOrder(SplayTreeAction action, BTreeNode t, double y){
 		if(t != null){
 			inOrder(action, t._left, y);
 			action.action(t, y);
@@ -216,7 +216,7 @@ public class SplayTree {
     // Tree manipulations
     
     //void rotateWithLeftChild( BTreeNode<T, KeyType> * & k2 ) const;
-	private BTreeNode rotateWithLeftChild(BTreeNode k2){
+	private static BTreeNode rotateWithLeftChild(BTreeNode k2){
 		BTreeNode k1 = k2._left;
 	    k2._left = k1._right;
 	    k1._right = k2;
@@ -224,14 +224,14 @@ public class SplayTree {
 	}
 	
 	//void rotateWithRightChild( BTreeNode<T, KeyType> * & k1 ) const;
-	private BTreeNode rotateWithRightChild(BTreeNode k1){
+	private static BTreeNode rotateWithRightChild(BTreeNode k1){
 		BTreeNode k2 = k1._right;
 	    k1._right = k2._left;
 	    k2._left = k1;
 	    return k2;
 	}
 	
-	private static BTreeNode header = new BTreeNode();
+	private static final BTreeNode header = new BTreeNode();
 	
 	/**
 	 * Internal method to perform a top-down splay.
@@ -242,7 +242,7 @@ public class SplayTree {
 	 * @return
 	 */
 	//void splay( KeyType keys, BTreeNode<T, KeyType> * & t ) const;
-	private BTreeNode splay(Comparable keys, BTreeNode t){
+	private static BTreeNode splay(Comparable keys, BTreeNode t){
 		BTreeNode _leftTreeMax, _rightTreeMin;
 	    
 	    header._left = header._right = null;

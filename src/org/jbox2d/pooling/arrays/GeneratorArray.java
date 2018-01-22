@@ -7,7 +7,7 @@ import org.jbox2d.particle.VoronoiDiagram;
 public class GeneratorArray {
 
   private final HashMap<Integer, VoronoiDiagram.Generator[]> map =
-      new HashMap<Integer, VoronoiDiagram.Generator[]>();
+          new HashMap<>();
 
   public VoronoiDiagram.Generator[] get(int length) {
     assert (length > 0);
@@ -20,7 +20,7 @@ public class GeneratorArray {
     return map.get(length);
   }
 
-  protected VoronoiDiagram.Generator[] getInitializedArray(int length) {
+  protected static VoronoiDiagram.Generator[] getInitializedArray(int length) {
     final VoronoiDiagram.Generator[] ray = new VoronoiDiagram.Generator[length];
     for (int i = 0; i < ray.length; i++) {
       ray[i] = new VoronoiDiagram.Generator();

@@ -37,7 +37,7 @@ public class Polygon {
      * map in C++ code probably because od adding into map
      * ... see _pointsKeys
      */
-	protected HashMap _points = new HashMap();
+	protected final HashMap _points = new HashMap();
 	
 	/**
 	 * Initialized in initialize() method ... number of points
@@ -51,7 +51,7 @@ public class Polygon {
 	 * typedef map<unsigned int, Linebase*>            LineMap;
 	 * all edges
 	 */
-	protected HashMap _edges = new HashMap();
+	protected final HashMap _edges = new HashMap();
 	
 	/**
 	 * See _pointsKeys ... same for _edges.
@@ -66,33 +66,33 @@ public class Polygon {
 	 * typedef priority_queue<Pointbase> PQueue; ... use PointbaseComparatorCoordinatesReverse! (Jakub Gemrot)
 	 * priority queue for event points
 	 */
-	private PriorityQueue _qpoints = new PriorityQueue(30, new PointbaseComparatorCoordinatesReverse());
+	private final PriorityQueue _qpoints = new PriorityQueue(30, new PointbaseComparatorCoordinatesReverse());
 	
 	/**
 	 * typedef SplayTree<Linebase*, double>            EdgeBST;
 	 * edge binary searching tree (splaytree)
 	 */
-	private SplayTree _edgebst = new SplayTree(); 
+	private final SplayTree _edgebst = new SplayTree();
 
 	/**
 	 * typedef list<Monopoly>          Monopolys;
 	 * typedef list<unsigned int>      Monopoly;
 	 * all monotone polygon piece list;
 	 */ 
-	private ArrayList _mpolys = new ArrayList();
+	private final ArrayList _mpolys = new ArrayList();
 	
 	/**
 	 *  all triangle list; 
 	 *	typedef list<Triangle>                          Triangles;
 	 *	typedef vector<unsigned int>                    Triangle;
 	 */
-	private ArrayList _triangles = new ArrayList();                          
+	private final ArrayList _triangles = new ArrayList();
 
 	/**
 	 * typedef map<unsigned int, set<unsigned int> >   AdjEdgeMap;
 	 * data for monotone piece searching purpose;
 	 */
-	 private HashMap _startAdjEdgeMap = new HashMap();
+	 private final HashMap _startAdjEdgeMap = new HashMap();
 	 
 	 /**
 	  * typedef map<unsigned int, Linebase*>            LineMap;
@@ -100,7 +100,7 @@ public class Polygon {
 	  * monotont pieces, not all diagonals of
 	  * given polygon
 	  */
-	 private HashMap _diagonals = new HashMap(); 
+	 private final HashMap _diagonals = new HashMap();
 		             		
 	 /**
 	  * debug option;
@@ -115,7 +115,7 @@ public class Polygon {
 	 /**
 	  * This is used to change key of all items in SplayTree.
 	  */
-	 private UpdateKey updateKey = new UpdateKey();
+	 private final UpdateKey updateKey = new UpdateKey();
 
 	 /**
 	  * If _debug == true, file with this name will be used to log the messages.
@@ -280,15 +280,14 @@ public class Polygon {
 	  * rotate input polygon by angle theta, not used;
 	  */ 
 	 private void rotate(double theta){
-	    for(int i = 0; i < _pointsKeys.length; ++i)
-	    	(getPoint(_pointsKeys[i])).rotate(theta);
+		 for (int _pointsKey : _pointsKeys) (getPoint(_pointsKey)).rotate(theta);
 	 }
 	 
-	 private int[] getSorted(Set s){
+	 private static int[] getSorted(Set s){
 		 Object[] temp = s.toArray();
 		 int[] result = new int[temp.length];
 		 for (int i = 0; i < temp.length; ++i){
-			 result[i] = ((Integer)temp[i]).intValue();
+			 result[i] = (Integer) temp[i];
 		 }
 		 Arrays.sort(result);
 		 return result;
@@ -325,37 +324,36 @@ public class Polygon {
 		 int id, idp, idn; 
 		 Pointbase p, pnext, pprev; // was Pointbase p, pnext, pprev; ... COPY CONTRUCTOR whenever =
 		 double area;
-		 
-		 for (int i = 0; i < _pointsKeys.length; ++i){
-			id  = _pointsKeys[i];
-		    idp = prev(id);
-		    idn = next(id);
-		    
-		    p     = getPoint(id);
-		    pnext = getPoint(idn);		    
-		    pprev = getPoint(idp);
-		   
-		    if( (p.compareTo(pnext) > 0) && (pprev.compareTo(p) > 0))
-			   p.type = Poly2TriUtils.REGULAR_DOWN;
-		    else 
-		    if ( (p.compareTo(pprev) > 0) && (pnext.compareTo(p) > 0) )
-			   p.type = Poly2TriUtils.REGULAR_UP;
-		    else{
-		       area = Poly2TriUtils.orient2d(new double[]{pprev.x, pprev.y},
-		    		                         new double[]{p.x,     p.y},
-		    		                         new double[]{pnext.x, pnext.y});
 
-		       if( (pprev.compareTo(p) > 0) && (pnext.compareTo(p) > 0)) 
-		    	   p.type = (area > 0) ? Poly2TriUtils.END   : Poly2TriUtils.MERGE;
-		       if( (pprev.compareTo(p) < 0) && (pnext.compareTo(p) < 0)) 
-		    	   p.type = (area > 0) ? Poly2TriUtils.START : Poly2TriUtils.SPLIT;		       
-		     }
-		    
-		    // C++ code: _qpoints.push(*(it.second));
-		    // must use copy constructor!
-		    _qpoints.add(new Pointbase(p));
+		 for (int _pointsKey : _pointsKeys) {
+			 id = _pointsKey;
+			 idp = prev(id);
+			 idn = next(id);
 
-		    getSetFromStartAdjEdgeMap(id).add(id);
+			 p = getPoint(id);
+			 pnext = getPoint(idn);
+			 pprev = getPoint(idp);
+
+			 if ((p.compareTo(pnext) > 0) && (pprev.compareTo(p) > 0))
+				 p.type = Poly2TriUtils.REGULAR_DOWN;
+			 else if ((p.compareTo(pprev) > 0) && (pnext.compareTo(p) > 0))
+				 p.type = Poly2TriUtils.REGULAR_UP;
+			 else {
+				 area = Poly2TriUtils.orient2d(new double[]{pprev.x, pprev.y},
+						 new double[]{p.x, p.y},
+						 new double[]{pnext.x, pnext.y});
+
+				 if ((pprev.compareTo(p) > 0) && (pnext.compareTo(p) > 0))
+					 p.type = (area > 0) ? Poly2TriUtils.END : Poly2TriUtils.MERGE;
+				 if ((pprev.compareTo(p) < 0) && (pnext.compareTo(p) < 0))
+					 p.type = (area > 0) ? Poly2TriUtils.START : Poly2TriUtils.SPLIT;
+			 }
+
+			 // C++ code: _qpoints.push(*(it.second));
+			 // must use copy constructor!
+			 _qpoints.add(new Pointbase(p));
+
+			 getSetFromStartAdjEdgeMap(id).add(id);
 		 }
 	 }
 	 
@@ -629,7 +627,7 @@ public class Polygon {
 	  * calculate angle B for A, B, C three given points
 	  * auxiliary function to find monotone polygon pieces
 	  */
-	 private double angleCosb(double[] pa, double[] pb, double[] pc){
+	 private static double angleCosb(double[] pa, double[] pb, double[] pc){
 		 double dxab = pa[0] - pb[0];
 		 double dyab = pa[1] - pb[1];
 
@@ -905,9 +903,9 @@ public class Polygon {
 	 public boolean triangulation(){							  
 		 if (!partition2Monotone()) return false;
 		 if (!searchMonotones())    return false;
-		 
-		 for (int i = 0; i < _mpolys.size(); ++i){
-			 triangulateMonotone((ArrayList)_mpolys.get(i));
+
+		 for (Object _mpoly : _mpolys) {
+			 triangulateMonotone((ArrayList) _mpoly);
 		 }
 		 
 		 setDebugOption(false); // possibly closing the log file

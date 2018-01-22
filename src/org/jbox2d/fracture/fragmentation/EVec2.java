@@ -17,7 +17,7 @@ class EVec2 implements Comparable<EVec2> {
     /**
      * Bod hrany
      */
-    public Vec2 p;
+    public final Vec2 p;
     
     /**
      * True, pokial je dany bod zaciatocny, false ak je koncovy.

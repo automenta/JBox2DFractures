@@ -77,14 +77,6 @@ public class MathUtils extends PlatformMathUtils {
     }
   }
 
-  public static final float sin(float x) {
-    if (Settings.SINCOS_LUT_ENABLED) {
-      return sinLUT(x);
-    } else {
-      return (float) StrictMath.sin(x);
-    }
-  }
-
   public static final float sinLUT(float x) {
     x %= TWOPI;
 
@@ -112,26 +104,6 @@ public class MathUtils extends PlatformMathUtils {
     } else {
       return sinLUT[MathUtils.round(x / Settings.SINCOS_LUT_PRECISION) % Settings.SINCOS_LUT_LENGTH];
     }
-  }
-
-  public static final float cos(float x) {
-    if (Settings.SINCOS_LUT_ENABLED) {
-      return sinLUT(HALF_PI - x);
-    } else {
-      return (float) StrictMath.cos(x);
-    }
-  }
-
-  public static final float abs(final float x) {
-    if (Settings.FAST_ABS) {
-      return x > 0 ? x : -x;
-    } else {
-      return StrictMath.abs(x);
-    }
-  }
-
-  public static final float fastAbs(final float x) {
-    return x > 0 ? x : -x;
   }
 
   public static final int abs(int x) {
@@ -256,22 +228,6 @@ public class MathUtils extends PlatformMathUtils {
     return x > 0 && (x & x - 1) == 0;
   }
 
-  public static final float pow(float a, float b) {
-    if (Settings.FAST_POW) {
-      return fastPow(a, b);
-    } else {
-      return (float) StrictMath.pow(a, b);
-    }
-  }
-
-  public static final float atan2(final float y, final float x) {
-    if (Settings.FAST_ATAN2) {
-      return fastAtan2(y, x);
-    } else {
-      return (float) StrictMath.atan2(y, x);
-    }
-  }
-
   public static final float fastAtan2(float y, float x) {
     if (x == 0.0f) {
       if (y > 0.0f) return HALF_PI;
@@ -280,7 +236,7 @@ public class MathUtils extends PlatformMathUtils {
     }
     float atan;
     final float z = y / x;
-    if (abs(z) < 1.0f) {
+    if (Math.abs(z) < 1.0f) {
       atan = z / (1.0f + 0.28f * z * z);
       if (x < 0.0f) {
         if (y < 0.0f) return atan - PI;
@@ -295,10 +251,10 @@ public class MathUtils extends PlatformMathUtils {
 
   public static final float reduceAngle(float theta) {
     theta %= TWOPI;
-    if (abs(theta) > PI) {
+    if (Math.abs(theta) > PI) {
       theta = theta - TWOPI;
     }
-    if (abs(theta) > HALF_PI) {
+    if (Math.abs(theta) > HALF_PI) {
       theta = PI - theta;
     }
     return theta;
@@ -312,10 +268,6 @@ public class MathUtils extends PlatformMathUtils {
     return r.nextFloat() * (argHigh - argLow) + argLow;
   }
 
-  public static final float sqrt(float x) {
-    return (float) StrictMath.sqrt(x);
-  }
-
   public final static float distanceSquared(Vec2 v1, Vec2 v2) {
     float dx = (v1.x - v2.x);
     float dy = (v1.y - v2.y);
@@ -323,6 +275,6 @@ public class MathUtils extends PlatformMathUtils {
   }
 
   public final static float distance(Vec2 v1, Vec2 v2) {
-    return sqrt(distanceSquared(v1, v2));
+    return (float) Math.sqrt(distanceSquared(v1, v2));
   }
 }

@@ -188,7 +188,7 @@ public class Collision {
   // #### COLLISION STUFF (not from collision.h or collision.cpp) ####
 
   // djm pooling
-  private static Vec2 d = new Vec2();
+  private static final Vec2 d = new Vec2();
 
   /**
    * Compute the collision manifold between two circles.
@@ -199,8 +199,8 @@ public class Collision {
    * @param circle2
    * @param xfB
    */
-  public final void collideCircles(Manifold manifold, final CircleShape circle1,
-      final Transform xfA, final CircleShape circle2, final Transform xfB) {
+  public static void collideCircles(Manifold manifold, final CircleShape circle1,
+                                    final Transform xfA, final CircleShape circle2, final Transform xfB) {
     manifold.pointCount = 0;
     // before inline:
     // Transform.mulToOut(xfA, circle1.m_p, pA);
@@ -245,8 +245,8 @@ public class Collision {
    * @param circle
    * @param xfB
    */
-  public final void collidePolygonAndCircle(Manifold manifold, final PolygonShape polygon,
-      final Transform xfA, final CircleShape circle, final Transform xfB) {
+  public static void collidePolygonAndCircle(Manifold manifold, final PolygonShape polygon,
+                                             final Transform xfA, final CircleShape circle, final Transform xfB) {
     manifold.pointCount = 0;
     // Vec2 v = circle.m_p;
 
@@ -479,8 +479,8 @@ public class Collision {
     results.separation = maxSeparation;
   }
 
-  public final void findIncidentEdge(final ClipVertex[] c, final PolygonShape poly1,
-      final Transform xf1, int edge1, final PolygonShape poly2, final Transform xf2) {
+  public static void findIncidentEdge(final ClipVertex[] c, final PolygonShape poly1,
+                                      final Transform xf1, int edge1, final PolygonShape poly2, final Transform xf2) {
     int count1 = poly1.m_count;
     final Vec2[] normals1 = poly1.m_normals;
 

@@ -13,7 +13,7 @@ import org.jbox2d.fracture.Material;
  * @author Marek Benovic
  */
 public class Diffusion extends Material {
-    private Random r = new Random();
+    private final Random r = new Random();
     
     @Override
     public Vec2[] focee(Vec2 startPoint, Vec2 vektor) {

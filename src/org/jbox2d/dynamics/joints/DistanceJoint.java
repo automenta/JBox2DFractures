@@ -351,6 +351,6 @@ public class DistanceJoint extends Joint {
     pool.pushVec2(3);
     pool.pushRot(2);
 
-    return MathUtils.abs(C) < Settings.linearSlop;
+      return Math.abs(C) < Settings.linearSlop;
   }
 }

@@ -34,7 +34,7 @@ import java.util.HashMap;
  */
 public class IntArray {
 	
-	private final HashMap<Integer, int[]> map = new HashMap<Integer, int[]>();
+	private final HashMap<Integer, int[]> map = new HashMap<>();
 	
 	public int[] get( int argLength){
 		assert(argLength > 0);
@@ -47,7 +47,7 @@ public class IntArray {
 		return map.get(argLength);
 	}
 	
-	protected int[] getInitializedArray(int argLength){
+	protected static int[] getInitializedArray(int argLength){
 		return new int[argLength];
 	}
 }

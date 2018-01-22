@@ -567,8 +567,8 @@ public class ContactSolver {
               vn1 = Vec2.dot(dv1, normal);
               vn2 = Vec2.dot(dv2, normal);
 
-              assert (MathUtils.abs(vn1 - cp1.velocityBias) < k_errorTol);
-              assert (MathUtils.abs(vn2 - cp2.velocityBias) < k_errorTol);
+                assert (Math.abs(vn1 - cp1.velocityBias) < k_errorTol);
+                assert (Math.abs(vn2 - cp2.velocityBias) < k_errorTol);
             }
             break;
           }
@@ -630,7 +630,7 @@ public class ContactSolver {
               // Compute normal velocity
               vn1 = Vec2.dot(dv1, normal);
 
-              assert (MathUtils.abs(vn1 - cp1.velocityBias) < k_errorTol);
+                assert (Math.abs(vn1 - cp1.velocityBias) < k_errorTol);
             }
             break;
           }
@@ -690,7 +690,7 @@ public class ContactSolver {
               // Compute normal velocity
               vn2 = Vec2.dot(dv2, normal);
 
-              assert (MathUtils.abs(vn2 - cp2.velocityBias) < k_errorTol);
+                assert (Math.abs(vn2 - cp2.velocityBias) < k_errorTol);
             }
             break;
           }

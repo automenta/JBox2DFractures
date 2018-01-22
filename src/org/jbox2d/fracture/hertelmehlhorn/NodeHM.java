@@ -9,7 +9,7 @@ class NodeHM {
     /**
      * Index mnohostenu
      */
-    int index;
+    final int index;
     
 
     /**

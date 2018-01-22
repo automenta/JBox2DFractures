@@ -12,7 +12,7 @@ class GraphVertex {
     /**
      * Vrchol v grafe
      */
-    public Vec2 value;
+    public final Vec2 value;
     
     /**
      * Pocet polygonov, ktorych sucastou je dany vrchol

@@ -16,5 +16,5 @@ class EdgePolygon extends AEdge {
     /**
      * List prienikovych bodov, ktore sa nachadzaju na danej hrane.
      */
-    public MyList<Vec2Intersect> list = new MyList<>();
+    public final MyList<Vec2Intersect> list = new MyList<>();
 }

@@ -69,7 +69,7 @@ public class RevoluteJoint extends Joint {
   private float m_motorSpeed;
 
   private boolean m_enableLimit;
-  protected float m_referenceAngle;
+  protected final float m_referenceAngle;
   private float m_lowerAngle;
   private float m_upperAngle;
 
@@ -171,7 +171,7 @@ public class RevoluteJoint extends Joint {
 
     if (m_enableLimit && fixedRotation == false) {
       float jointAngle = aB - aA - m_referenceAngle;
-      if (MathUtils.abs(m_upperAngle - m_lowerAngle) < 2.0f * Settings.angularSlop) {
+        if (Math.abs(m_upperAngle - m_lowerAngle) < 2.0f * Settings.angularSlop) {
         m_limitState = LimitState.EQUAL;
       } else if (jointAngle <= m_lowerAngle) {
         if (m_limitState != LimitState.AT_LOWER) {
@@ -375,7 +375,7 @@ public class RevoluteJoint extends Joint {
             MathUtils.clamp(angle - m_lowerAngle, -Settings.maxAngularCorrection,
                 Settings.maxAngularCorrection);
         limitImpulse = -m_motorMass * C;
-        angularError = MathUtils.abs(C);
+          angularError = Math.abs(C);
       } else if (m_limitState == LimitState.AT_LOWER) {
         float C = angle - m_lowerAngle;
         angularError = -C;

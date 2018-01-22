@@ -1,6 +1,6 @@
 package org.gui;
 
-import org.gui.testbed.Materials;
+import org.gui.fracture.Materials;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -24,7 +24,8 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import org.gui.testbed.*;
+import org.gui.fracture.*;
+import org.gui.jbox2d.Chain;
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.collision.shapes.EdgeShape;
 import org.jbox2d.collision.shapes.PolygonShape;
@@ -85,20 +86,19 @@ public class Tests extends JComponent implements Runnable {
         new Fluid(),
         new Materials(Material.UNIFORM),
         new Materials(Material.DIFFUSION),
-        new Materials(Material.GLASS)
+        new Materials(Material.GLASS),
+        new Chain()
     };
     
-    private Tests(ICase testcase) {
-    }
-    
+
     private Tests() {
         initWorld();
 
         addMouseWheelListener((MouseWheelEvent e) -> {
             if (e.getWheelRotation() < 0) {
-                zoom *= 1.5f * -e.getWheelRotation();
+                zoom *= 1.25f * -e.getWheelRotation();
             } else {
-                zoom /= 1.5f * e.getWheelRotation();
+                zoom /= 1.25f * e.getWheelRotation();
             }
             
             zoom = Math.min(zoom, 100);
@@ -345,24 +345,30 @@ public class Tests extends JComponent implements Runnable {
     
     private void drawParticles() {
         Vec2[] vec = w.getParticlePositionBuffer();
-        if (vec != null) {
-            g.setColor(Color.BLUE);
-            float radius = w.getParticleRadius();
-            int size = w.getParticleCount();
-            for (int i = 0; i < size; i++) {
-                Vec2 vx = vec[i];
-                Point pp = getPoint(vx);
-                float r = radius * zoom;
-                int radInt = (int) (r * 2);
-                if (radInt < 1) {
-                    g.drawLine(pp.x, pp.y, pp.x, pp.y); //ak je zoom priliz maly, tak by kvapalinu nezobrazilo
-                } else {
-                    g.fillOval(pp.x - (int) r, pp.y - (int) r, (int)(r * 2), (int)(r * 2));
-                }
+        if (vec == null) {
+            return;
+        }
+        g.setColor(Color.BLUE);
+        float radius = w.getParticleRadius();
+        int size = w.getParticleCount();
+        for (int i = 0; i < size; i++) {
+            Vec2 vx = vec[i];
+            Point pp = getPoint(vx);
+            float r = radius * zoom;
+
+            if (r < 0.5f) {
+                g.drawLine(pp.x, pp.y, pp.x, pp.y); //ak je zoom priliz maly, tak by kvapalinu nezobrazilo
+            } else {
+                int radInt = Math.round(r * 2);
+                g.fillOval(pp.x - (int) r, pp.y - (int) r, (int)(r * 2), (int)(r * 2));
             }
         }
     }
-    
+
+    final int MAX_POLY_EDGES = 32;
+    private final int x[] = new int[MAX_POLY_EDGES];
+    private final int y[] = new int[MAX_POLY_EDGES];
+
     private void drawBody(Body body) {
         if (body.getType() == BodyType.DYNAMIC) {
             g.setColor(Color.DARK_GRAY);
@@ -382,8 +388,6 @@ public class Tests extends JComponent implements Runnable {
                 switch (shape.m_type) {
                     case POLYGON:
                         PolygonShape poly = (PolygonShape) shape;
-                        int x[] = new int[poly.m_count];
-                        int y[] = new int[poly.m_count];
                         for (int i = 0; i < poly.m_count; ++i) {
                             body.getWorldPointToOut(poly.m_vertices[i], v);
                             Point p = getPoint(v);
@@ -505,6 +509,7 @@ public class Tests extends JComponent implements Runnable {
             @Override
             public void run() {
                 JFrame frame = new JFrame("Tests");
+                frame.setIgnoreRepaint(true);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 
                 Container pane = frame.getContentPane();
@@ -535,6 +540,7 @@ public class Tests extends JComponent implements Runnable {
                 });
 
                 canvas.setAlignmentX(Component.CENTER_ALIGNMENT);
+                canvas.setIgnoreRepaint(true);
                 pane.add(canvas);
                 
                 canvas.setCase(cases[0]);

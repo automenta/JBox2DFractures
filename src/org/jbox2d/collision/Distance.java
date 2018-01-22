@@ -51,7 +51,7 @@ public class Distance {
   /**
    * GJK using Voronoi regions (Christer Ericson) and Barycentric coordinates.
    */
-  private class SimplexVertex {
+  private static class SimplexVertex {
     public final Vec2 wA = new Vec2(); // support point in shapeA
     public final Vec2 wB = new Vec2(); // support point in shapeB
     public final Vec2 w = new Vec2(); // wB - wA
@@ -120,8 +120,8 @@ public class Distance {
         SimplexVertex v = vertices[i];
         v.indexA = cache.indexA[i];
         v.indexB = cache.indexB[i];
-        Vec2 wALocal = proxyA.getVertex(v.indexA);
-        Vec2 wBLocal = proxyB.getVertex(v.indexB);
+        Vec2 wALocal = proxyA.vertex(v.indexA);
+        Vec2 wBLocal = proxyB.vertex(v.indexB);
         Transform.mulToOutUnsafe(transformA, wALocal, v.wA);
         Transform.mulToOutUnsafe(transformB, wBLocal, v.wB);
         v.w.set(v.wB).subLocal(v.wA);
@@ -144,8 +144,8 @@ public class Distance {
         SimplexVertex v = vertices[0];
         v.indexA = 0;
         v.indexB = 0;
-        Vec2 wALocal = proxyA.getVertex(0);
-        Vec2 wBLocal = proxyB.getVertex(0);
+        Vec2 wALocal = proxyA.vertex(0);
+        Vec2 wBLocal = proxyB.vertex(0);
         Transform.mulToOutUnsafe(transformA, wALocal, v.wA);
         Transform.mulToOutUnsafe(transformB, wBLocal, v.wB);
         v.w.set(v.wB).subLocal(v.wA);
@@ -158,8 +158,9 @@ public class Distance {
       cache.count = m_count;
 
       for (int i = 0; i < m_count; ++i) {
-        cache.indexA[i] = (vertices[i].indexA);
-        cache.indexB[i] = (vertices[i].indexB);
+        SimplexVertex vi = vertices[i];
+        cache.indexA[i] = vi.indexA;
+        cache.indexB[i] = vi.indexB;
       }
     }
 
@@ -188,7 +189,6 @@ public class Distance {
         default:
           assert (false);
           out.setZero();
-          return;
       }
     }
 
@@ -221,7 +221,6 @@ public class Distance {
         default:
           assert (false);
           out.setZero();
-          return;
       }
     }
 
@@ -593,19 +592,19 @@ public class Distance {
      * @param index
      * @return
      */
-    public final Vec2 getVertex(int index) {
+    public final Vec2 vertex(int index) {
       assert (0 <= index && index < m_count);
       return m_vertices[index];
     }
   }
 
-  private Simplex simplex = new Simplex();
-  private int[] saveA = new int[3];
-  private int[] saveB = new int[3];
-  private Vec2 closestPoint = new Vec2();
-  private Vec2 d = new Vec2();
-  private Vec2 temp = new Vec2();
-  private Vec2 normal = new Vec2();
+  private final Simplex simplex = new Simplex();
+  private final int[] saveA = new int[3];
+  private final int[] saveB = new int[3];
+  private final Vec2 closestPoint = new Vec2();
+  private final Vec2 d = new Vec2();
+  private final Vec2 temp = new Vec2();
+  private final Vec2 normal = new Vec2();
 
   /**
    * Compute the closest points between two shapes. Supports any combination of: CircleShape and
@@ -706,11 +705,11 @@ public class Distance {
 
       Rot.mulTransUnsafe(transformA.q, d.negateLocal(), temp);
       vertex.indexA = proxyA.getSupport(temp);
-      Transform.mulToOutUnsafe(transformA, proxyA.getVertex(vertex.indexA), vertex.wA);
+      Transform.mulToOutUnsafe(transformA, proxyA.vertex(vertex.indexA), vertex.wA);
       // Vec2 wBLocal;
       Rot.mulTransUnsafe(transformB.q, d.negateLocal(), temp);
       vertex.indexB = proxyB.getSupport(temp);
-      Transform.mulToOutUnsafe(transformB, proxyB.getVertex(vertex.indexB), vertex.wB);
+      Transform.mulToOutUnsafe(transformB, proxyB.vertex(vertex.indexB), vertex.wB);
       vertex.w.set(vertex.wB).subLocal(vertex.wA);
 
       // Iteration count is equated to the number of support point calls.

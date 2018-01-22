@@ -64,76 +64,123 @@ public class DefaultWorldPool implements IWorldPool {
   private final OrderedStack<AABB> aabbs;
   private final OrderedStack<Rot> rots;
 
-  private final HashMap<Integer, float[]> afloats = new HashMap<Integer, float[]>();
-  private final HashMap<Integer, int[]> aints = new HashMap<Integer, int[]>();
-  private final HashMap<Integer, Vec2[]> avecs = new HashMap<Integer, Vec2[]>();
+  private final HashMap<Integer, float[]> afloats = new HashMap<>();
+  private final HashMap<Integer, int[]> aints = new HashMap<>();
+  private final HashMap<Integer, Vec2[]> avecs = new HashMap<>();
 
   private final IWorldPool world = this;
 
   private final MutableStack<Contact> pcstack =
-    new MutableStack<Contact>(Settings.CONTACT_STACK_INIT_SIZE) {
-      protected Contact newInstance () { return new PolygonContact(world); }
-      protected Contact[] newArray(int size) { return new PolygonContact[size]; }
-  };
+          new MutableStack<>(Settings.CONTACT_STACK_INIT_SIZE) {
+              protected Contact newInstance() {
+                  return new PolygonContact(world);
+              }
+
+              protected Contact[] newArray(int size) {
+                  return new PolygonContact[size];
+              }
+          };
 
   private final MutableStack<Contact> ccstack =
-    new MutableStack<Contact>(Settings.CONTACT_STACK_INIT_SIZE) {
-      protected Contact newInstance () { return new CircleContact(world); }
-      protected Contact[] newArray(int size) { return new CircleContact[size]; }
-    };
+          new MutableStack<>(Settings.CONTACT_STACK_INIT_SIZE) {
+              protected Contact newInstance() {
+                  return new CircleContact(world);
+              }
+
+              protected Contact[] newArray(int size) {
+                  return new CircleContact[size];
+              }
+          };
 
   private final MutableStack<Contact> cpstack =
-    new MutableStack<Contact>(Settings.CONTACT_STACK_INIT_SIZE) {
-      protected Contact newInstance () { return new PolygonAndCircleContact(world); }
-      protected Contact[] newArray(int size) { return new PolygonAndCircleContact[size]; }
-    };
+          new MutableStack<>(Settings.CONTACT_STACK_INIT_SIZE) {
+              protected Contact newInstance() {
+                  return new PolygonAndCircleContact(world);
+              }
+
+              protected Contact[] newArray(int size) {
+                  return new PolygonAndCircleContact[size];
+              }
+          };
 
   private final MutableStack<Contact> ecstack =
-    new MutableStack<Contact>(Settings.CONTACT_STACK_INIT_SIZE) {
-      protected Contact newInstance () { return new EdgeAndCircleContact(world); }
-      protected Contact[] newArray(int size) { return new EdgeAndCircleContact[size]; }
-    };
+          new MutableStack<>(Settings.CONTACT_STACK_INIT_SIZE) {
+              protected Contact newInstance() {
+                  return new EdgeAndCircleContact(world);
+              }
+
+              protected Contact[] newArray(int size) {
+                  return new EdgeAndCircleContact[size];
+              }
+          };
 
   private final MutableStack<Contact> epstack =
-    new MutableStack<Contact>(Settings.CONTACT_STACK_INIT_SIZE) {
-      protected Contact newInstance () { return new EdgeAndPolygonContact(world); }
-      protected Contact[] newArray(int size) { return new EdgeAndPolygonContact[size]; }
-    };
+          new MutableStack<>(Settings.CONTACT_STACK_INIT_SIZE) {
+              protected Contact newInstance() {
+                  return new EdgeAndPolygonContact(world);
+              }
+
+              protected Contact[] newArray(int size) {
+                  return new EdgeAndPolygonContact[size];
+              }
+          };
 
   private final MutableStack<Contact> chcstack =
-    new MutableStack<Contact>(Settings.CONTACT_STACK_INIT_SIZE) {
-      protected Contact newInstance () { return new ChainAndCircleContact(world); }
-      protected Contact[] newArray(int size) { return new ChainAndCircleContact[size]; }
-    };
+          new MutableStack<>(Settings.CONTACT_STACK_INIT_SIZE) {
+              protected Contact newInstance() {
+                  return new ChainAndCircleContact(world);
+              }
+
+              protected Contact[] newArray(int size) {
+                  return new ChainAndCircleContact[size];
+              }
+          };
 
   private final MutableStack<Contact> chpstack =
-    new MutableStack<Contact>(Settings.CONTACT_STACK_INIT_SIZE) {
-      protected Contact newInstance () { return new ChainAndPolygonContact(world); }
-      protected Contact[] newArray(int size) { return new ChainAndPolygonContact[size]; }
-    };
+          new MutableStack<>(Settings.CONTACT_STACK_INIT_SIZE) {
+              protected Contact newInstance() {
+                  return new ChainAndPolygonContact(world);
+              }
+
+              protected Contact[] newArray(int size) {
+                  return new ChainAndPolygonContact[size];
+              }
+          };
 
   private final Collision collision;
   private final TimeOfImpact toi;
   private final Distance dist;
 
   public DefaultWorldPool(int argSize, int argContainerSize) {
-    vecs = new OrderedStack<Vec2>(argSize, argContainerSize) {
-      protected Vec2 newInstance() { return new Vec2(); }
+    vecs = new OrderedStack<>(argSize, argContainerSize) {
+        protected Vec2 newInstance() {
+            return new Vec2();
+        }
     };
-    vec3s = new OrderedStack<Vec3>(argSize, argContainerSize) {
-      protected Vec3 newInstance() { return new Vec3(); }
+    vec3s = new OrderedStack<>(argSize, argContainerSize) {
+        protected Vec3 newInstance() {
+            return new Vec3();
+        }
     };
-    mats = new OrderedStack<Mat22>(argSize, argContainerSize) {
-      protected Mat22 newInstance() { return new Mat22(); }
+    mats = new OrderedStack<>(argSize, argContainerSize) {
+        protected Mat22 newInstance() {
+            return new Mat22();
+        }
     };
-    aabbs = new OrderedStack<AABB>(argSize, argContainerSize) {
-      protected AABB newInstance() { return new AABB(); }
+    aabbs = new OrderedStack<>(argSize, argContainerSize) {
+        protected AABB newInstance() {
+            return new AABB();
+        }
     };
-    rots = new OrderedStack<Rot>(argSize, argContainerSize) {
-      protected Rot newInstance() { return new Rot(); }
+    rots = new OrderedStack<>(argSize, argContainerSize) {
+        protected Rot newInstance() {
+            return new Rot();
+        }
     };
-    mat33s = new OrderedStack<Mat33>(argSize, argContainerSize) {
-      protected Mat33 newInstance() { return new Mat33(); }
+    mat33s = new OrderedStack<>(argSize, argContainerSize) {
+        protected Mat33 newInstance() {
+            return new Mat33();
+        }
     };
 
     dist = new Distance();

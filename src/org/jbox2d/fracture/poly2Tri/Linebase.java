@@ -1,7 +1,5 @@
 package org.jbox2d.fracture.poly2Tri;
 
-import org.jbox2d.fracture.poly2Tri.splayTree.BTreeNode;
-import org.jbox2d.fracture.poly2Tri.splayTree.SplayTreeAction;
 import org.jbox2d.fracture.poly2Tri.splayTree.SplayTreeItem;
 
 /**
@@ -19,7 +17,7 @@ public class Linebase implements SplayTreeItem {
 	 /**
 	  * two end points;
 	  */
-     protected Pointbase[] _endp = {null, null};      
+     protected final Pointbase[] _endp = {null, null};
      
      /**
       * type of a line segement, input/insert
@@ -46,7 +44,7 @@ public class Linebase implements SplayTreeItem {
 	 public Linebase(Pointbase ep1, Pointbase ep2, int iType){
 		 _endp[0]=ep1;
 	     _endp[1]=ep2;
-	     _id=(int)++Poly2TriUtils.l_id;
+	     _id= ++Poly2TriUtils.l_id;
 	     _type = iType;
 	 }
 	 
@@ -104,16 +102,16 @@ public class Linebase implements SplayTreeItem {
 	 }
 
 	 public String toString(){
-		 StringBuffer sb = new StringBuffer();
+		 StringBuilder sb = new StringBuilder();
 		 sb.append("Linebase(");
-		 sb.append("ID = "+_id);
-		 sb.append(", "+Poly2TriUtils.typeToString(_type));
+		 sb.append("ID = ").append(_id);
+		 sb.append(", ").append(Poly2TriUtils.typeToString(_type));
 		 sb.append(", [");
 		 sb.append(_endp[0]);
 		 sb.append(", ");
 		 sb.append(_endp[1]);
-		 sb.append("], type = "+_type);
-		 sb.append(", keyValue ="+keyValue());
+		 sb.append("], type = ").append(_type);
+		 sb.append(", keyValue =").append(keyValue());
 		 return sb.toString();
 	 }
 	     

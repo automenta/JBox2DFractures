@@ -44,7 +44,7 @@ public class ContactFilter {
 	 * @param fixtureB
 	 * @return
 	 */
-	public boolean shouldCollide(Fixture fixtureA, Fixture fixtureB){
+	public static boolean shouldCollide(Fixture fixtureA, Fixture fixtureB){
 		Filter filterA = fixtureA.getFilterData();
 		Filter filterB = fixtureB.getFilterData();
 

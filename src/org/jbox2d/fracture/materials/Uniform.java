@@ -11,7 +11,7 @@ import org.jbox2d.fracture.util.MyList;
  * @author Marek Benovic
  */
 public class Uniform extends Material {
-    private Random r = new Random();
+    private final Random r = new Random();
     
     @Override
     public Vec2[] focee(Vec2 bodNarazu, Vec2 vektorNarazu) {

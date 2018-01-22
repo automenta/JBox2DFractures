@@ -92,6 +92,12 @@ public class FixtureDef {
     polygon = null;
   }
 
+  public FixtureDef(Shape shape, float density, float friction) {
+    setShape(shape);
+    setDensity(density);
+    setFriction(friction);
+  }
+
   /**
    * The shape, this must be set. The shape will be cloned, so you can create the shape on the
    * stack.

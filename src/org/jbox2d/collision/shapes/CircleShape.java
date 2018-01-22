@@ -27,7 +27,6 @@ import org.jbox2d.collision.AABB;
 import org.jbox2d.collision.RayCastInput;
 import org.jbox2d.collision.RayCastOutput;
 
-import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Rot;
 import org.jbox2d.common.Settings;
 import org.jbox2d.common.Transform;
@@ -64,7 +63,7 @@ public class CircleShape extends Shape {
    * @param d
    * @return
    */
-  public final int getSupport(final Vec2 d) {
+  public static int getSupport(final Vec2 d) {
     return 0;
   }
 
@@ -83,7 +82,7 @@ public class CircleShape extends Shape {
    * 
    * @return
    */
-  public final int getVertexCount() {
+  public static int getVertexCount() {
     return 1;
   }
 
@@ -120,7 +119,7 @@ public class CircleShape extends Shape {
     float centery = xfq.s * m_p.x + xfq.c * m_p.y + xf.p.y;
     float dx = p.x - centerx;
     float dy = p.y - centery;
-    float d1 = MathUtils.sqrt(dx * dx + dy * dy);
+      float d1 = (float) Math.sqrt(dx * dx + dy * dy);
     normalOut.x = dx * 1 / d1;
     normalOut.y = dy * 1 / d1;
     return d1 - m_radius;
@@ -164,7 +163,7 @@ public class CircleShape extends Shape {
     }
 
     // Find the point of intersection of the line with the circle.
-    float a = -(c + MathUtils.sqrt(sigma));
+      float a = -(c + (float) Math.sqrt(sigma));
 
     // Is the intersection point on the segment?
     if (0.0f <= a && a <= input.maxFraction * rr) {

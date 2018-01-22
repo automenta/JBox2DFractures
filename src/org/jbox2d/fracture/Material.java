@@ -70,7 +70,7 @@ public abstract class Material {
      * od povodneho predka, null - ziadne rekurzivne triestenie. Pomocou inych
      * referencii sa da dobre definovat napr. cihlova stena.
      */
-    public Material m_fragments = this;
+    public final Material m_fragments = this;
     
     /**
      * Abstraktna funkcia urcujuca sposob triesenia.
@@ -92,33 +92,30 @@ public abstract class Material {
     protected Polygon[] split(Polygon p, Vec2 bodNarazu, Vec2 vektor, float normalImpulse) {
         Vec2[] foceeArray = focee(bodNarazu, vektor);
 
-        geom.calculate(p, foceeArray, bodNarazu, new IContains() {
-            @Override
-            public boolean contains(Vec2 point) {
-                float x = bodNarazu.x - point.x;
-                float y = bodNarazu.y - point.y;
+        geom.calculate(p, foceeArray, bodNarazu, point -> {
+            float x = bodNarazu.x - point.x;
+            float y = bodNarazu.y - point.y;
 
-                float xx = x;
-                float yy = y;
+            float xx = x;
+            float yy = y;
 
-                //inverzna tranformacia
-                float ln = vektor.length();
-                float sin = -vektor.x / ln;
-                float cos = -vektor.y / ln;
-                x = cos * xx + -sin * yy;
-                y = sin * xx + cos * yy;
-                
-                //definicia filtru posobnosti
-                float r = m_radius; // polomer
-                float c = 2;
-                float d = ln * c;
-                d = Math.max(d, r);
-                
-                r = r * r;
-                d = d * d;
+            //inverzna tranformacia
+            float ln = vektor.length();
+            float sin = -vektor.x / ln;
+            float cos = -vektor.y / ln;
+            x = cos * xx + -sin * yy;
+            y = sin * xx + cos * yy;
 
-                return (x * x + y * y < r && y < 0) || (x * x / r + y * y / d < 1 && y > 0);
-            }
+            //definicia filtru posobnosti
+            float r = m_radius; // polomer
+            float c = 2;
+            float d = ln * c;
+            d = Math.max(d, r);
+
+            r = r * r;
+            d = d * d;
+
+            return (x * x + y * y < r && y < 0) || (x * x / r + y * y / d < 1 && y > 0);
         });
 
         return geom.fragments;

@@ -30,7 +30,6 @@ import org.jbox2d.collision.Manifold;
 import org.jbox2d.collision.ManifoldPoint;
 import org.jbox2d.collision.WorldManifold;
 import org.jbox2d.collision.shapes.Shape;
-import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Transform;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -87,10 +86,10 @@ public abstract class Contact {
   public float m_tangentSpeed;
   
   public float m_angularVelocity_bodyA;
-  public Vec2 m_linearVelocity_bodyA = new Vec2();
+  public final Vec2 m_linearVelocity_bodyA = new Vec2();
   
   public float m_angularVelocity_bodyB;
-  public Vec2 m_linearVelocity_bodyB = new Vec2();
+  public final Vec2 m_linearVelocity_bodyB = new Vec2();
 
   protected final IWorldPool pool;
 
@@ -363,7 +362,7 @@ public abstract class Contact {
    * @return
    */
   public static final float mixFriction(float friction1, float friction2) {
-    return MathUtils.sqrt(friction1 * friction2);
+      return (float) Math.sqrt(friction1 * friction2);
   }
 
   /**

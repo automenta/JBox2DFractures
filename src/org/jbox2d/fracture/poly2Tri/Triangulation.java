@@ -8,12 +8,12 @@ public class Triangulation {
      * Set this to TRUE to obtain file with name debugFileName with the
      * log about triangulation
      */
-    public static boolean debug = false;
+    public static final boolean debug = false;
 
     /**
      * If debug == true file with this name will be created during triangulation.
      */
-    public static String debugFileName = "polygon_triangulation_log.txt";
+    public static final String debugFileName = "polygon_triangulation_log.txt";
 
     /**
      * Vola funkciu trangulate na polygone bez dier. Vracia rovnaku hodnotu

@@ -80,8 +80,8 @@ public class Singleton {
         }
         
         AEdge[][] allEdges = new AEdge[][] {
-            diagramEdges.toArray(new AEdge[0]),
-            polygonEdges.toArray(new AEdge[0])
+            diagramEdges.toArray(new AEdge[diagramEdges.size()]),
+            polygonEdges.toArray(new AEdge[polygonEdges.size()])
         };
         
         ArrayList<EVec2> vectorList = new ArrayList<>();
@@ -102,7 +102,7 @@ public class Singleton {
             }
         }
         
-        EVec2[] vectors = vectorList.toArray(new EVec2[0]);
+        EVec2[] vectors = vectorList.toArray(new EVec2[vectorList.size()]);
         
         Arrays.sort(vectors); //zotriedim body
 
@@ -115,27 +115,27 @@ public class Singleton {
                     EdgeDiagram ex = (EdgeDiagram) e.e;
                     diagramEdges.add(ex);
                     
-                    EdgePolygon[] hranyPolygonu = polygonEdges.toArray(new EdgePolygon[0]);
+                    EdgePolygon[] hranyPolygonu = polygonEdges.toArray(new EdgePolygon[polygonEdges.size()]);
                     for (EdgePolygon px : hranyPolygonu) {
                         process(px, ex);
                     }
                     
                 } else {
-                    diagramEdges.remove((EdgeDiagram) e.e);
+                    diagramEdges.remove(e.e);
                 }
             } else { //je instanciou EdgePolygon
                 if (e.start) {
                     EdgePolygon px = (EdgePolygon) e.e;
                     polygonEdges.add(px);
                     
-                    EdgeDiagram[] hranyPolygonu = diagramEdges.toArray(new EdgeDiagram[0]);
+                    EdgeDiagram[] hranyPolygonu = diagramEdges.toArray(new EdgeDiagram[diagramEdges.size()]);
                     
                     for (EdgeDiagram ex : hranyPolygonu) {
                         process(px, ex);
                     }
                     
                 } else {
-                    polygonEdges.remove((EdgePolygon) e.e);
+                    polygonEdges.remove(e.e);
                 }
             }
         }
@@ -157,18 +157,15 @@ public class Singleton {
         
         Polygon polygonAll = new Polygon();
         
-        Comparator<Vec2Intersect> c = new Comparator() {
-            @Override
-            public int compare(Object o1, Object o2) {
-                Vec2Intersect v1 = (Vec2Intersect) o1;
-                Vec2Intersect v2 = (Vec2Intersect) o2;
-                return Double.compare(v1.k, v2.k);
-            }
+        Comparator<Vec2Intersect> c = (o1, o2) -> {
+            Vec2Intersect v1 = (Vec2Intersect) o1;
+            Vec2Intersect v2 = (Vec2Intersect) o2;
+            return Double.compare(v1.k, v2.k);
         };
         
         for (EdgePolygon ex : polygonEdgesList) {
             polygonAll.add(ex.p1);
-            Collections.sort(ex.list, c);
+            ex.list.sort(c);
             polygonAll.add(ex.list);
         }
         

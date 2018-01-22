@@ -23,7 +23,6 @@
  ******************************************************************************/
 package org.jbox2d.dynamics.joints;
 
-import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Settings;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -41,7 +40,7 @@ public class ConstantVolumeJoint extends Joint {
   private Vec2[] normals;
   private float m_impulse = 0.0f;
 
-  private World world;
+  private final World world;
 
   private DistanceJoint[] distanceJoints;
 
@@ -60,13 +59,14 @@ public class ConstantVolumeJoint extends Joint {
   public ConstantVolumeJoint(World argWorld, ConstantVolumeJointDef def) {
     super(argWorld.getPool(), def);
     world = argWorld;
-    if (def.bodies.size() <= 2) {
+    int n = def.bodies.size();
+    if (n <= 2) {
       throw new IllegalArgumentException(
           "You cannot create a constant volume joint with less than three bodies.");
     }
-    bodies = def.bodies.toArray(new Body[0]);
+    bodies = def.bodies.toArray(new Body[n]);
 
-    targetLengths = new float[bodies.length];
+    targetLengths = new float[n];
     for (int i = 0; i < targetLengths.length; ++i) {
       final int next = (i == targetLengths.length - 1) ? 0 : i + 1;
       float dist = bodies[i].getWorldCenter().sub(bodies[next].getWorldCenter()).length();
@@ -74,7 +74,7 @@ public class ConstantVolumeJoint extends Joint {
     }
     targetVolume = getBodyArea();
 
-    if (def.joints != null && def.joints.size() != def.bodies.size()) {
+    if (def.joints != null && def.joints.size() != n) {
       throw new IllegalArgumentException(
           "Incorrect joint definition.  Joints have to correspond to the bodies");
     }
@@ -102,8 +102,8 @@ public class ConstantVolumeJoint extends Joint {
 
   @Override
   public void destructor() {
-    for (int i = 0; i < distanceJoints.length; ++i) {
-      world.destroyJoint(distanceJoints[i]);
+    for (DistanceJoint distanceJoint : distanceJoints) {
+      world.destroyJoint(distanceJoint);
     }
   }
 
@@ -137,7 +137,7 @@ public class ConstantVolumeJoint extends Joint {
       final int next = (i == bodies.length - 1) ? 0 : i + 1;
       float dx = positions[bodies[next].m_islandIndex].c.x - positions[bodies[i].m_islandIndex].c.x;
       float dy = positions[bodies[next].m_islandIndex].c.y - positions[bodies[i].m_islandIndex].c.y;
-      float dist = MathUtils.sqrt(dx * dx + dy * dy);
+      float dist = (float) Math.sqrt(dx * dx + dy * dy);
       if (dist < Settings.EPSILON) {
         dist = 1.0f;
       }
@@ -159,7 +159,7 @@ public class ConstantVolumeJoint extends Joint {
       // sumdeltax += dx;
       float normSqrd = delta.lengthSquared();
       if (normSqrd > Settings.maxLinearCorrection * Settings.maxLinearCorrection) {
-        delta.mulLocal(Settings.maxLinearCorrection / MathUtils.sqrt(normSqrd));
+        delta.mulLocal(Settings.maxLinearCorrection / (float) Math.sqrt(normSqrd));
       }
       if (normSqrd > Settings.linearSlop * Settings.linearSlop) {
         done = false;

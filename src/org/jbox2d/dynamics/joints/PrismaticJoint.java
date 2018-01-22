@@ -115,7 +115,7 @@ public class PrismaticJoint extends Joint {
   protected final Vec2 m_localAnchorB;
   protected final Vec2 m_localXAxisA;
   protected final Vec2 m_localYAxisA;
-  protected float m_referenceAngle;
+  protected final float m_referenceAngle;
   private final Vec3 m_impulse;
   private float m_motorImpulse;
   private float m_lowerTranslation;
@@ -468,7 +468,7 @@ public class PrismaticJoint extends Joint {
     if (m_enableLimit) {
 
       float jointTranslation = Vec2.dot(m_axis, d);
-      if (MathUtils.abs(m_upperTranslation - m_lowerTranslation) < 2.0f * Settings.linearSlop) {
+        if (Math.abs(m_upperTranslation - m_lowerTranslation) < 2.0f * Settings.linearSlop) {
         m_limitState = LimitState.EQUAL;
       } else if (jointTranslation <= m_lowerTranslation) {
         if (m_limitState != LimitState.AT_LOWER) {
@@ -703,19 +703,19 @@ public class PrismaticJoint extends Joint {
     C1.x = Vec2.dot(perp, d);
     C1.y = aB - aA - m_referenceAngle;
 
-    float linearError = MathUtils.abs(C1.x);
-    float angularError = MathUtils.abs(C1.y);
+      float linearError = Math.abs(C1.x);
+      float angularError = Math.abs(C1.y);
 
     boolean active = false;
     float C2 = 0.0f;
     if (m_enableLimit) {
       float translation = Vec2.dot(axis, d);
-      if (MathUtils.abs(m_upperTranslation - m_lowerTranslation) < 2.0f * Settings.linearSlop) {
+        if (Math.abs(m_upperTranslation - m_lowerTranslation) < 2.0f * Settings.linearSlop) {
         // Prevent large angular corrections
         C2 =
             MathUtils.clamp(translation, -Settings.maxLinearCorrection,
                 Settings.maxLinearCorrection);
-        linearError = MathUtils.max(linearError, MathUtils.abs(translation));
+            linearError = MathUtils.max(linearError, Math.abs(translation));
         active = true;
       } else if (translation <= m_lowerTranslation) {
         // Prevent large linear corrections and allow some slop.

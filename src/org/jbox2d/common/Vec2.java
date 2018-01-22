@@ -136,7 +136,7 @@ public class Vec2 implements Serializable {
 
   /** Return the length of this vector. */
   public final float length() {
-    return MathUtils.sqrt(x * x + y * y);
+    return (float) Math.sqrt(x * x + y * y);
   }
 
   /** Return the squared length of this vector. */
@@ -164,12 +164,12 @@ public class Vec2 implements Serializable {
 
   /** Return a new vector that has positive components. */
   public final Vec2 abs() {
-    return new Vec2(MathUtils.abs(x), MathUtils.abs(y));
+    return new Vec2(Math.abs(x), Math.abs(y));
   }
 
   public final void absLocal() {
-    x = MathUtils.abs(x);
-    y = MathUtils.abs(y);
+    x = Math.abs(x);
+    y = Math.abs(y);
   }
 
   // @Override // annotation omitted for GWT-compatibility
@@ -188,12 +188,12 @@ public class Vec2 implements Serializable {
    */
 
   public final static Vec2 abs(Vec2 a) {
-    return new Vec2(MathUtils.abs(a.x), MathUtils.abs(a.y));
+    return new Vec2(Math.abs(a.x), Math.abs(a.y));
   }
 
   public final static void absToOut(Vec2 a, Vec2 out) {
-    out.x = MathUtils.abs(a.x);
-    out.y = MathUtils.abs(a.y);
+    out.x = Math.abs(a.x);
+    out.y = Math.abs(a.y);
   }
 
   public final static float dot(final Vec2 a, final Vec2 b) {

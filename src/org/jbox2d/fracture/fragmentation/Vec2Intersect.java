@@ -27,7 +27,7 @@ public class Vec2Intersect extends Vec2 {
     /**
      * (v2.x - v1.x) * k + v1 = Vec2Intersect, kde v1 a v2 su 1. a 2. vrchol jednej hrany
      */
-    public double k;
+    public final double k;
     
     /**
      * Pomocna premenna pre vypocet

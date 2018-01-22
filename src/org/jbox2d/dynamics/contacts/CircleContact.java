@@ -23,6 +23,7 @@
  ******************************************************************************/
 package org.jbox2d.dynamics.contacts;
 
+import org.jbox2d.collision.Collision;
 import org.jbox2d.collision.Manifold;
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.collision.shapes.ShapeType;
@@ -44,7 +45,7 @@ public class CircleContact extends Contact {
 
   @Override
   public void evaluate(Manifold manifold, Transform xfA, Transform xfB) {
-    pool.getCollision().collideCircles(manifold, (CircleShape) m_fixtureA.getShape(), xfA,
+    Collision.collideCircles(manifold, (CircleShape) m_fixtureA.getShape(), xfA,
         (CircleShape) m_fixtureB.getShape(), xfB);
   }
 }
